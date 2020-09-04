@@ -1,4 +1,4 @@
-package jwt
+package middleware
 
 import (
 	"baseapi/global/response"

@@ -3,9 +3,8 @@ package routers
 import (
 	"baseapi/global"
 
+	"baseapi/middleware"
 	v1 "baseapi/routers/api/v1"
-
-	jwt "baseapi/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,12 +12,13 @@ import (
 func InitRouter() *gin.Engine {
 	app := global.BA_CONFIG.App
 	r := gin.New()
-	r.Use(gin.Logger(), gin.Recovery())
+	r.Use(middleware.Logger())
+	r.Use(gin.Recovery())
 
 	gin.SetMode(app.RunMode)
 	apiv1 := r.Group("/api/v1")
 	apiv1.GET("/auth", v1.Auth)
-	apiv1.Use(jwt.JWT())
+	apiv1.Use(middleware.JWT())
 	{
 		apiv1.GET("/tags", v1.GetTags)
 		apiv1.POST("/tags", v1.AddTag)
