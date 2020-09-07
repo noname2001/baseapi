@@ -26,6 +26,7 @@ require (
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5
+	github.com/robfig/cron v1.2.0 // indirect
 	github.com/shiena/ansicolor v0.0.0-20200830101100-9405ca8e49f3 // indirect
 	github.com/silenceper/gowatch v0.0.0-20200624073703-8e473a9db258 // indirect
 	github.com/sirupsen/logrus v1.6.0
