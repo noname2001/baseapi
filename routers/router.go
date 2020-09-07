@@ -6,7 +6,11 @@ import (
 	"baseapi/middleware"
 	v1 "baseapi/routers/api/v1"
 
+	_ "baseapi/docs"
+
 	"github.com/gin-gonic/gin"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
 func InitRouter() *gin.Engine {
@@ -16,6 +20,8 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 
 	gin.SetMode(app.RunMode)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	apiv1 := r.Group("/api/v1")
 	apiv1.GET("/auth", v1.Auth)
 	apiv1.Use(middleware.JWT())

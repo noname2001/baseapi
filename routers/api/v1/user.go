@@ -58,6 +58,13 @@ func UnfollowUser(c *gin.Context) {
 	response.Ok(c)
 }
 
+// @Summary 新增用户
+// @Produce  json
+// @Param name query string true "Name"
+// @Param password query string true "Password"
+// @Param is_active query int false "IsActive"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /api/v1/users [post]
 func AddUser(c *gin.Context) {
 	var user models.User
 

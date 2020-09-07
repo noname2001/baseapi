@@ -5,21 +5,27 @@ import (
 	"baseapi/global"
 	"baseapi/routers"
 	"fmt"
-	"net/http"
+	"log"
+	"syscall"
+
+	"github.com/fvbock/endless"
 )
 
 func main() {
 	app := global.BA_CONFIG.App
 
-	router := routers.InitRouter()
+	endless.DefaultReadTimeOut = app.ReadTimeout
+	endless.DefaultWriteTimeOut = app.WriteTimeout
+	endless.DefaultMaxHeaderBytes = 1 << 20
+	endPoint := fmt.Sprintf(":%d", app.HTTPPort)
 
-	s := &http.Server{
-		Addr:           fmt.Sprintf(":%d", app.HTTPPort),
-		Handler:        router,
-		ReadTimeout:    app.ReadTimeout,
-		WriteTimeout:   app.WriteTimeout,
-		MaxHeaderBytes: 1 << 20,
+	server := endless.NewServer(endPoint, routers.InitRouter())
+	server.BeforeBegin = func(add string) {
+		log.Printf("Actual pid is %d", syscall.Getpid())
 	}
 
-	s.ListenAndServe()
+	err := server.ListenAndServe()
+	if err != nil {
+		log.Printf("Server err: %v", err)
+	}
 }
